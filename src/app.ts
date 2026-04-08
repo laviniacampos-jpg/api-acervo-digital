@@ -16,8 +16,7 @@ dotenv.config();
  */
 // Lê a variável PORT do arquivo .env e converte de string para número inteiro
 // Ex: se .env tiver PORT=3333, a variável port receberá o número 3333
-const port: number = parseInt(process.env.PORT as string);
-
+const port: number = Number(process.env.PORT) || 3333;
 // Lê a variável HOST do arquivo .env
 // O operador "??" garante que, se HOST não estiver definido no .env, usa string vazia como padrão
 const host: string = process.env.HOST ?? "";

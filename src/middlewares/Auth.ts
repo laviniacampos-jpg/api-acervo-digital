@@ -1,7 +1,7 @@
 // imports
 import jwt from 'jsonwebtoken';
 import { type Request, type Response, type NextFunction } from 'express';
-import { DatabaseModel } from '../model/DatabaseModel.js';
+import { DatabaseModel } from '../model/DatabaseModel.js'; 
 
 // palavra secreta
 const SECRET = 'bananinha';
@@ -50,19 +50,19 @@ export class Auth {
                 const usuario = {
                     id_usuario: queryResult.rows[0].id_usuario,
                     nome: queryResult.rows[0].nome,
-                    username: queryResult.rows[0].email,
+                    email: queryResult.rows[0].email,
                     role: queryResult.rows[0].role
                 }
 
                 // Gera o token do usuário, passando como parâmetro as informações do objeto professor
-                const tokenUsuario = Auth.generateToken(parseInt(usuario.id_usuario), usuario.nome, usuario.username, usuario.role);
+                const tokenUsuario = Auth.generateToken(parseInt(usuario.id_usuario), usuario.nome, usuario.email, usuario.role);
 
                 // retorna ao cliente o status de autenticação (verdadeiro), o token e o objeto professor
                 // tudo isso encapsulado em um JSON
                 return res.status(200).json({ auth: true, token: tokenUsuario, usuario: usuario });
             } else {
                 // caso a autenticação não tenha sido bem sucedida, é retornado ao cliente o statu de autenticação (falso), um token nulo e a mensagem de falha
-                return res.status(401).json({ auth: false, token: null, message: "Usuário e/ou senha incorretos" });
+                return res.status(401).json({ auth: false, token: null, message: "Email e/ou senha incorretos" });
             }
             // verifica possíveis erros durante a requisição
         } catch (error) {
@@ -79,14 +79,14 @@ export class Auth {
      * @param email Email do usuário no banco de dados
      * @returns Token de autenticação do usuário
      */
-    static generateToken(id: number, nome: string, username: string, role: string) {
+    static generateToken(id: number, nome: string, email: string, role: string) {
         // retora o token gerado
         // id: ID do professor no banco de dados
         // nome: nome do professor no banco de dados
         // email: email do professor no banco de dados
         // SECRET: palavra secreta
         // expiresIn: tempo até a expiração do token (neste exemplo, 1 hora)
-        return jwt.sign({ id, nome, username, role }, SECRET, { expiresIn: '1h' });
+        return jwt.sign({ id, nome, email, role }, SECRET, { expiresIn: '1h' });
     }
 
     /**

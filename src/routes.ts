@@ -7,9 +7,11 @@ import AlunoController from "./controller/AlunoController.js";
 import LivroController from "./controller/LivroController.js";
 // Importa o controller de Emprestimo
 import EmprestimoController from "./controller/EmprestimoController.js";
-import { Auth } from "./middlewares/Auth.js";
+import { Auth } from './middlewares/Auth.js';
 // Cria uma instância do Router — é neste objeto que todas as rotas serão registradas
 // O router é depois exportado e conectado ao servidor principal (geralmente no app.ts ou server.ts)
+
+
 const router = Router();
 
 router.post('/api/login', Auth.validacaoEmail);
@@ -93,4 +95,5 @@ router.put('/api/emprestimos/:id', EmprestimoController.atualizar);
 // Exporta o router para que possa ser registrado no servidor principal da aplicação
 // O uso de "export { router }" (exportação nomeada) ao invés de "export default" permite
 // importar com um nome explícito: import { router } from "./routes.js"
+
 export { router }
